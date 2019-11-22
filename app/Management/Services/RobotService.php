@@ -8,44 +8,44 @@ use Illuminate\Http\Request;
 
 class RobotService implements Contract
 {
-    private $validator;
+  private $validator;
 
-    public function __construct()
-    {
-      $this->validator = new RequestValidation;
-    }
+  public function __construct()
+  {
+    $this->validator = new RequestValidation;
+  }
 
-    /**
-     * Start the robot movement process
-     * 
-     * @return mixed
-     */
-    public function start($request) 
-    {
-      $response = $this->validator->validate($request);
+  /**
+   * Start the robot movement process
+   * 
+   * @return mixed
+   */
+  public function start($request) 
+  {
+    $response = $this->validator->validate($request);
 
-      if ($response === true) { 
-        $parser = new FileParserService($request['file_name']);
+    if ($response === true) { 
+      $parser = new FileParserService($request['file_name']);
 
-        $commands = $parser->getAllCommands();
+      $commands = $parser->getAllCommands();
+
+      if (count($commands)) {
+        $commandsValidator = new CommandsValidatorService($commands);
+
+        $commands = $commandsValidator->getAllValidCommands();
 
         if (count($commands)) {
-          $commandsValidator = new CommandsValidatorService($commands);
+          $movement = new MovementService($commands);
 
-          $commands = $commandsValidator->getAllValidCommands();
-
-          if (count($commands)) {
-            echo "<pre>";
-            print_r($commands);
-            die;
-          } else {
-            $response = "No Valid Commands Found in given File.";
-          }
+          $response = $movement->start();
         } else {
-          $response = "No Commands Found in File.";
+          $response = "No Valid Commands Found in given File.";
         }
+      } else {
+        $response = "No Commands Found in File.";
       }
-
-      return $response;
     }
+
+    return $response;
+  }
 }
