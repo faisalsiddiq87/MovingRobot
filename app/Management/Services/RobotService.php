@@ -24,10 +24,20 @@ class RobotService implements Contract
     {
       $response = $this->validator->validate($request);
 
-      if ($response === true) {
-        //Start the Robot Commands processing here
+      if ($response === true) { 
+        $parser = new FileParserService($request['file_name']);
 
-      } 
+        $commands = $parser->getAllCommands();
+
+        if (count($commands)) {
+          $commandsValidator = new CommandsValidatorService($commands);
+
+          $commands = $commandsValidator->getAllValidCommands();
+
+        } else {
+          $response = "No Commands Found in File";
+        }
+      }
 
       return $response;
     }

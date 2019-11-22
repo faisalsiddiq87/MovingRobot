@@ -46,15 +46,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        $json = [
-            'status' => 0,
-            'data'  => [],
-            'error' => [
-                'code' => $exception->getCode(),
-                'message' => $exception->getMessage() ? $exception->getMessage() : "Invalid route/method not allowed" ,
-            ],
-        ];
+        $message = $exception->getMessage() ? $exception->getMessage() : "Invalid route/method not allowed" ;
 
-        return response()->json($json, 400);
+        return response()->json($message, 400);
     }
 }
