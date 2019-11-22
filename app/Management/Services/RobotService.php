@@ -34,8 +34,15 @@ class RobotService implements Contract
 
           $commands = $commandsValidator->getAllValidCommands();
 
+          if (count($commands)) {
+            echo "<pre>";
+            print_r($commands);
+            die;
+          } else {
+            $response = "No Valid Commands Found in given File.";
+          }
         } else {
-          $response = "No Commands Found in File";
+          $response = "No Commands Found in File.";
         }
       }
 
