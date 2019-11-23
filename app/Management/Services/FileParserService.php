@@ -4,7 +4,6 @@ namespace App\Management\Services;
 
 use App\Management\Validations\RequestValidation;
 use App\Management\Contracts\Service\Contract;
-use Illuminate\Http\Request;
 
 class FileParserService implements Contract
 {
@@ -13,6 +12,11 @@ class FileParserService implements Contract
     public function __construct($fileName = '')
     {
       $this->fileName = $fileName;
+    }
+
+    private function getFileName()
+    {
+      return $this->fileName;
     }
 
     /**
@@ -24,6 +28,6 @@ class FileParserService implements Contract
     {
       //If File exists will send commands array as output.
       //Else Error will be shown automatically by general error handler class App\Exceptions\Handler
-      return explode("\n", file_get_contents(env('FILES_DIRECTORY') . '/'. $this->fileName . '.txt'));
+      return explode("\n", file_get_contents(env('FILES_DIRECTORY') . '/'. $this->getFileName() . '.txt'));
     }
 }

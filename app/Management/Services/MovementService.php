@@ -4,7 +4,6 @@ namespace App\Management\Services;
 
 use App\Management\Validations\RequestValidation;
 use App\Management\Contracts\Service\Contract;
-use Illuminate\Http\Request;
 
 class MovementService implements Contract
 {
@@ -60,7 +59,6 @@ class MovementService implements Contract
   {
     if ($this->isSquareTable()) {
       $allCommands = $this->getCommands();
-
       foreach ($allCommands as $cmd) {
         switch ($cmd) {
           case 'MOVE':

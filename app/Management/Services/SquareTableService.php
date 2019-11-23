@@ -3,7 +3,6 @@
 namespace App\Management\Services;
 
 use App\Management\Contracts\Service\Contract;
-use Illuminate\Http\Request;
 
 class SquareTableService implements Contract
 {
@@ -18,12 +17,12 @@ class SquareTableService implements Contract
       $this->yAxis = $y;
    }
 
-   public function getMaxXAXIS() 
+   private function getMaxXAXIS() 
    {
       return $this->xAxis;
    }
 
-   public function getMaxYAXIS() 
+   private function getMaxYAXIS() 
    {
       return $this->yAxis;
    }
@@ -32,19 +31,24 @@ class SquareTableService implements Contract
    {
       $isSquare = false;
 
-      if ($this->getMaxXAXIS() == $this->getMaxYAXIS() && $this->getMaxXAXIS() > 0 &&  
-      $this->getMaxYAXIS() > 0) {
+      $xAxis = $this->getMaxXAXIS();
+
+      $yAxis = $this->getMaxYAXIS();
+
+      if ((ctype_digit($xAxis) && ctype_digit($yAxis)) && ($xAxis == $yAxis) && 
+      ($xAxis > 0 &&  $yAxis > 0)) {
          $isSquare = true;
       }
 
       return $isSquare;
    }
 
-   public function isValidLocationOnTable($x, $y)
+   public function isValidLocationOnTable($newXAxis, $newYAxis)
    {
       $isValidMove = false;
 
-      if ($x <= $this->getMaxXAXIS() && $y <= $this->getMaxYAXIS()) {
+      if (($newXAxis <= $this->getMaxXAXIS() && $newYAxis <= $this->getMaxYAXIS())
+      && ($newXAxis >=0 && $newYAxis >= 0)) {
          $isValidMove = true;
       }
 

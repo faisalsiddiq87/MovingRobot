@@ -4,7 +4,6 @@ namespace App\Management\Services;
 
 use App\Management\Validations\RequestValidation;
 use App\Management\Contracts\Service\Contract;
-use Illuminate\Http\Request;
 
 class CommandsValidatorService implements Contract
 {
@@ -15,7 +14,7 @@ class CommandsValidatorService implements Contract
       $this->commands = $commands;
    }
 
-   public function getCommands()
+   private function getCommands()
    {
       return $this->commands;
    }
@@ -54,9 +53,10 @@ class CommandsValidatorService implements Contract
       
       //Remove ALL Commands before the first PLACE command
       if ($getFirstValidPlaceCommandKey > -1) {
-         $this->commands = $this->reindexArray($getFirstValidPlaceCommandKey);
+         $indexedCommands = $this->reindexArray($getFirstValidPlaceCommandKey);
+         $this->setCommands($indexedCommands);
       } else {
-         $this->commands = [];
+         $this->setCommands([]);
       }
    }
 
@@ -78,7 +78,7 @@ class CommandsValidatorService implements Contract
          }
       }
 
-      $this->commands = $validCommands;
+      $this->setCommands($validCommands);
    }
    
    private function isValidPlaceCommand($cmd)
@@ -114,5 +114,10 @@ class CommandsValidatorService implements Contract
    private function reindexArray($index)
    {
       return array_values(array_slice($this->commands, $index, NULL, TRUE));
+   }
+
+   private function setCommands($commands)
+   {
+      $this->commands = $commands;
    }
 }
