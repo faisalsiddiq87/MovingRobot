@@ -53,10 +53,12 @@ class MovementService implements Contract
   /**
    * Start Robot Movement
    * 
-   * @void
+   * @array
    */
   public function start() 
   {
+    $output = [];
+
     if ($this->isSquareTable()) {
       $allCommands = $this->getCommands();
       foreach ($allCommands as $cmd) {
@@ -73,7 +75,7 @@ class MovementService implements Contract
           case 'REPORT':
             $availableLocation = $this->report();
             if ($availableLocation) {
-              echo $availableLocation . '<br/>';
+              $output[] = $availableLocation;
             }
           break;
           default:
@@ -82,8 +84,10 @@ class MovementService implements Contract
         }
       }
     } else {
-      echo "No Square Table available for robot movement";
+      $output[] = "No Square Table Found for Robot Movement";
     }
+
+    return $output;
   }
 
   private function place($cmd) 

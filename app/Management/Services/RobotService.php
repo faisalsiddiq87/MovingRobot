@@ -31,12 +31,14 @@ class RobotService implements Contract
       if (count($commands)) {
         $commandsValidator = new CommandsValidatorService($commands);
 
-        $commands = $commandsValidator->getAllValidCommands();
+        $validCommands = $commandsValidator->getAllValidCommands();
 
-        if (count($commands)) {
-          $movement = new MovementService($commands);
+        if (count($validCommands)) {
+          $movement = new MovementService($validCommands);
 
-          $response = $movement->start();
+          $output = $movement->start();
+
+          $response = implode("<br/>", $output);
         } else {
           $response = "No Valid Commands Found in given File.";
         }
