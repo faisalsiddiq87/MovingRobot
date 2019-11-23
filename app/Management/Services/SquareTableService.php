@@ -47,7 +47,7 @@ class SquareTableService implements Contract
    {
       $isValidMove = false;
 
-      if (($newXAxis <= $this->getMaxXAXIS() && $newYAxis <= $this->getMaxYAXIS())
+      if (($newXAxis < $this->getMaxXAXIS() && $newYAxis < $this->getMaxYAXIS())
       && ($newXAxis >=0 && $newYAxis >= 0)) {
          $isValidMove = true;
       }

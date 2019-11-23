@@ -43,14 +43,15 @@ class CommandsValidatorService implements Contract
    private function ignoreAllPreCommandsTillPlaceCommand()
    {
       $getFirstValidPlaceCommandKey = -1;
-
+   
       foreach ($this->commands as $key => $cmd) {
-      if ($this->isValidPlaceCommand($cmd)) {
-         $getFirstValidPlaceCommandKey = $key;
-         break;
+         $cmd = trim($cmd);
+         if ($this->isValidPlaceCommand($cmd)) {
+            $getFirstValidPlaceCommandKey = $key;
+            break;
+         }
       }
-      }
-      
+     
       //Remove ALL Commands before the first PLACE command
       if ($getFirstValidPlaceCommandKey > -1) {
          $indexedCommands = $this->reindexArray($getFirstValidPlaceCommandKey);
@@ -72,6 +73,7 @@ class CommandsValidatorService implements Contract
       $validCommands = [];
 
       foreach ($this->commands as $cmd) {
+         $cmd = trim($cmd);
          if ($this->isValidPlaceCommand($cmd) || $this->isValidMoveCommand($cmd) || $this->isValidLeftCommand($cmd) || 
          $this->isValidRightCommand($cmd) || $this->isValidReportCommand($cmd)) {
             $validCommands[] = $cmd;
@@ -83,7 +85,26 @@ class CommandsValidatorService implements Contract
    
    private function isValidPlaceCommand($cmd)
    {
-      return $this->matchPattern('/^PLACE\s+[0-9]+[,]+[0-9]+[,](NORTH|SOUTH|EAST|WEST)$/', $cmd);
+      return $this->matchPattern('/^PLACE\s+[0-9]+[,]+[0-9]+[,](NORTH|SOUTH|EAST|WEST)$/', $cmd) && $this->verifyPlaceCordinates($cmd);
+   }
+
+   private function verifyPlaceCordinates($cmd)
+   {
+      $hasValidPlaceCoordinates = false;
+
+      $parseCommand  = str_replace(['PLACE', ' '], '', $cmd);
+
+      $params = explode(",", $parseCommand);
+
+      $xAxis = $params[0];
+  
+      $yAxis = $params[1];
+
+      if ($xAxis < env('MAX_X_AXIS') &&  $yAxis < env('MAX_Y_AXIS')) {
+         $hasValidPlaceCoordinates = true;
+      }
+
+      return $hasValidPlaceCoordinates;
    }
 
    private function isValidMoveCommand($cmd)

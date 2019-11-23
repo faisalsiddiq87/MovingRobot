@@ -28,7 +28,7 @@ class MovementService implements Contract
     $this->table = new SquareTableService(env('MAX_X_AXIS'), env('MAX_Y_AXIS'));
   }
 
-  private function setPoints($x, $y)
+  private function setNewLocationAxis($x, $y)
   {
     $this->points['x'] = $x;
 
@@ -71,7 +71,10 @@ class MovementService implements Contract
             $this->right();
           break;
           case 'REPORT':
-            echo $this->report() . '<br/>';
+            $availableLocation = $this->report();
+            if ($availableLocation) {
+              echo $availableLocation . '<br/>';
+            }
           break;
           default:
             $this->place($cmd);
@@ -95,14 +98,8 @@ class MovementService implements Contract
 
     $newDirection = $params[2];
 
-    $currentLocation = $this->getCurrentLocation();
-
-    $x = $currentLocation['x'] + $newX;
-
-    $y = $currentLocation['y'] + $newY;
-    
-    if ($this->isAllowedToMove($x, $y)) {
-      $this->setPoints($x, $y);
+    if ($this->isAllowedToMove($newX, $newY)) {
+      $this->setNewLocationAxis($newX, $newY);
       $this->setDirection($newDirection);
     }
   }
@@ -111,20 +108,24 @@ class MovementService implements Contract
   {
     $currentLocation = $this->getCurrentLocation();
 
-    $x = $currentLocation['x'];
+    $currentXAxis = $currentLocation['x'];
 
-    $y = $currentLocation['y'];
+    $currentYAxis = $currentLocation['y'];
 
     $currentDirection = $currentLocation['direction'];
 
-    if ($currentDirection == 'EAST' || $currentDirection == 'WEST') {
-      $x += 1;
+    if ($currentDirection == 'EAST') {
+      $currentXAxis += 1;
+    } else if ($currentDirection == 'WEST') {
+      $currentXAxis -= 1;
+    } else if ($currentDirection == 'NORTH') {
+      $currentYAxis += 1;
     } else {
-      $y += 1;
+      $currentYAxis -= 1;
     }
 
-    if ($this->isAllowedToMove($x, $y)) {
-      $this->setPoints($x, $y);
+    if ($this->isAllowedToMove($currentXAxis, $currentYAxis)) {
+      $this->setNewLocationAxis($currentXAxis, $currentYAxis);
     }
   }
 
@@ -170,7 +171,7 @@ class MovementService implements Contract
   {
     $currentLocation = $this->getCurrentLocation();
 
-    return $currentLocation['x'] . ',' . $currentLocation['y'] . ',' . $currentLocation['direction'];
+    return $currentLocation['direction'] ? $currentLocation['x'] . ',' . $currentLocation['y'] . ',' . $currentLocation['direction'] : '';
   }
 
   private function isAllowedToMove($x, $y)
