@@ -59,7 +59,7 @@ class MovementServiceTest extends TestCase
      *
      * @return void
    */
-   public function testTurnRightAfterPlaceToWest()
+   public function testTurnRightAfterPlaceToNorth()
    {
       $allCommands = ['PLACE 0,2,NORTH', 'RIGHT', 'REPORT'];
 
