@@ -19,6 +19,11 @@ class CommandsValidatorService implements Contract
       return $this->commands;
    }
 
+   private function setCommands($commands)
+   {
+      $this->commands = $commands;
+   }
+
    /**
     * Validate all commands and remove bad ones
     * 
@@ -135,10 +140,5 @@ class CommandsValidatorService implements Contract
    private function reindexArray($index)
    {
       return array_values(array_slice($this->commands, $index, NULL, TRUE));
-   }
-
-   private function setCommands($commands)
-   {
-      $this->commands = $commands;
    }
 }
