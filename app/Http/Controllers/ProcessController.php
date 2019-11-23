@@ -8,8 +8,6 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class ProcessController extends BaseController 
 {
-    private $request;
-
     private $service;
 
     /**
@@ -20,8 +18,6 @@ class ProcessController extends BaseController
      */
     public function __construct(Request $request)
     {
-        $this->request = $request;
-
         $this->service = new RobotService;
     }
 
@@ -30,8 +26,8 @@ class ProcessController extends BaseController
      * 
      * @return string
      */
-    public function execute() 
+    public function execute($fileName) 
     {
-        return $this->service->start($this->request->all());
+        return $this->service->start($fileName);
     }
 }

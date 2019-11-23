@@ -50,7 +50,6 @@ class CommandsValidatorService implements Contract
       $getFirstValidPlaceCommandKey = -1;
    
       foreach ($this->commands as $key => $cmd) {
-         $cmd = trim($cmd);
          if ($this->isValidPlaceCommand($cmd)) {
             $getFirstValidPlaceCommandKey = $key;
             break;
@@ -78,7 +77,6 @@ class CommandsValidatorService implements Contract
       $validCommands = [];
 
       foreach ($this->commands as $cmd) {
-         $cmd = trim($cmd);
          if ($this->isValidPlaceCommand($cmd) || $this->isValidMoveCommand($cmd) || $this->isValidLeftCommand($cmd) || 
          $this->isValidRightCommand($cmd) || $this->isValidReportCommand($cmd)) {
             $validCommands[] = $cmd;
@@ -88,7 +86,7 @@ class CommandsValidatorService implements Contract
       $this->setCommands($validCommands);
    }
    
-   private function isValidPlaceCommand($cmd)
+   public function isValidPlaceCommand($cmd)
    {
       return $this->matchPattern('/^PLACE\s+[0-9]+[,]+[0-9]+[,](NORTH|SOUTH|EAST|WEST)$/', $cmd) && $this->verifyPlaceCordinates($cmd);
    }
@@ -112,22 +110,22 @@ class CommandsValidatorService implements Contract
       return $hasValidPlaceCoordinates;
    }
 
-   private function isValidMoveCommand($cmd)
+   public function isValidMoveCommand($cmd)
    {
       return $this->matchPattern('/^MOVE$/', $cmd);
    }
 
-   private function isValidLeftCommand($cmd)
+   public function isValidLeftCommand($cmd)
    {
       return $this->matchPattern('/^LEFT$/', $cmd);
    }
 
-   private function isValidRightCommand($cmd)
+   public function isValidRightCommand($cmd)
    {
       return $this->matchPattern('/^RIGHT$/', $cmd);
    }
 
-   private function isValidReportCommand($cmd)
+   public function isValidReportCommand($cmd)
    {
       return $this->matchPattern('/^REPORT$/', $cmd);
    }

@@ -61,27 +61,31 @@ class MovementService implements Contract
 
     if ($this->isSquareTable()) {
       $allCommands = $this->getCommands();
-      foreach ($allCommands as $cmd) {
-        switch ($cmd) {
-          case 'MOVE':
-            $this->move();
-          break;
-          case 'LEFT':
-            $this->left();
-          break;
-          case 'RIGHT':
-            $this->right();
-          break;
-          case 'REPORT':
-            $availableLocation = $this->report();
-            if ($availableLocation) {
-              $output[] = $availableLocation;
-            }
-          break;
-          default:
-            $this->place($cmd);
-          break;
+      if (count($allCommands)) {
+        foreach ($allCommands as $cmd) {
+          switch ($cmd) {
+            case 'MOVE':
+              $this->move();
+            break;
+            case 'LEFT':
+              $this->left();
+            break;
+            case 'RIGHT':
+              $this->right();
+            break;
+            case 'REPORT':
+              $availableLocation = $this->report();
+              if ($availableLocation) {
+                $output[] = $availableLocation;
+              }
+            break;
+            default:
+              $this->place($cmd);
+            break;
+          }
         }
+      } else {
+        $output[] = "No Commands given for Robot Movement";
       }
     } else {
       $output[] = "No Square Table Found for Robot Movement";

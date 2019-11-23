@@ -16,5 +16,5 @@ $router->get('/', function() use($router) {
 });
 
 $router->group(['middleware' => ['throttle:60,1']], function() use($router) {
-    $router->get('/run', ['uses' => 'ProcessController@execute']);
+    $router->get('/run/{fileName}', ['uses' => 'ProcessController@execute']);
 });

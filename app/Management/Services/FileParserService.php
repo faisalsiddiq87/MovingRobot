@@ -26,8 +26,15 @@ class FileParserService implements Contract
      */
     public function getAllCommands() 
     {
-      //If File exists will send commands array as output.
-      //Else Error will be shown automatically by general error handler class App\Exceptions\Handler
-      return explode("\n", file_get_contents(env('FILES_DIRECTORY') . '/'. $this->getFileName() . '.txt'));
+      $file = base_path('public') . DIRECTORY_SEPARATOR . env('FILES_DIRECTORY') . DIRECTORY_SEPARATOR . $this->getFileName() . '.txt';
+
+      if (file_exists($file)) {
+        $data = rtrim(@file_get_contents($file));
+        $response = $data ? array_map('trim', (explode("\n", $data))) : [];
+      } else {
+        $response = "File does not exist.";
+      }
+
+      return $response;
     }
 }

@@ -2,51 +2,39 @@
 
 namespace App\Management\Services;
 
-use App\Management\Validations\RequestValidation;
 use App\Management\Contracts\Service\Contract;
 
 class RobotService implements Contract
 {
-  private $validator;
-
-  public function __construct()
-  {
-    $this->validator = new RequestValidation;
-  }
-
   /**
    * Start the robot movement process
    * 
    * @return mixed
    */
-  public function start($request) 
+  public function start($fileName) 
   {
-    $response = $this->validator->validate($request);
+    $parser = new FileParserService($fileName);
 
-    if ($response === true) { 
-      $parser = new FileParserService($request['file_name']);
+    $fileData = $parser->getAllCommands();
 
-      $commands = $parser->getAllCommands();
+    if (is_array($fileData) && count($fileData)) {
+      $commandsValidator = new CommandsValidatorService($fileData);
 
-      if (count($commands)) {
-        $commandsValidator = new CommandsValidatorService($commands);
+      $validCommands = $commandsValidator->getAllValidCommands();
 
-        $validCommands = $commandsValidator->getAllValidCommands();
+      if (count($validCommands)) {
+        $movement = new MovementService($validCommands);
 
-        if (count($validCommands)) {
-          $movement = new MovementService($validCommands);
+        $output = $movement->start();
 
-          $output = $movement->start();
-
-          $response = implode("<br/>", $output);
-        } else {
-          $response = "No Valid Commands Found in given File.";
-        }
+        $response = implode(newLine(), $output);
       } else {
-        $response = "No Commands Found in File.";
+        $response = "No Valid Commands Found in given File.";
       }
+    } else {
+      $response = is_string($fileData) ? $fileData : "No Commands Found in File.";
     }
-
+    
     return $response;
   }
 }
