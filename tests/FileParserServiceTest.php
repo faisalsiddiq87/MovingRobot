@@ -13,7 +13,7 @@ class FileParserServiceTest extends TestCase
    */
    public function testwhenValidCommands()
    {
-      $parser = new FileParserService('sample');
+      $parser = new FileParserService('ValidCommands');
 
       $commands = $parser->getAllCommands();
 
@@ -27,7 +27,7 @@ class FileParserServiceTest extends TestCase
    */
    public function testwhenValidCommandsSecondSet()
    {
-     $parser = new FileParserService('sample01');
+     $parser = new FileParserService('ValidCommandsOne');
 
      $commands = $parser->getAllCommands();
 
@@ -42,7 +42,7 @@ class FileParserServiceTest extends TestCase
    */
    public function testwhenEmptyFile()
    {
-      $parser = new FileParserService('sample02');
+      $parser = new FileParserService('EmptyFile');
 
       $commands = $parser->getAllCommands();
       
@@ -56,7 +56,7 @@ class FileParserServiceTest extends TestCase
    */
    public function testReturnAllCommands()
    {
-      $parser = new FileParserService('sample03');
+      $parser = new FileParserService('NoValidPlaceCommand');
 
       $commands = $parser->getAllCommands();
       

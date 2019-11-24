@@ -12,7 +12,7 @@ class CompleteProcessTest extends TestCase
    */
    public function testwithValidCommands()
    {
-      $this->get('run/sample');
+      $this->get('run/ValidCommands');
       
       $this->assertEquals("2,1,WEST", $this->response->getContent());
    }
@@ -24,7 +24,7 @@ class CompleteProcessTest extends TestCase
    */
    public function testwithValidCommandsSampleTwo()
    {
-      $this->get('run/sample01');
+      $this->get('run/ValidCommandsOne');
       
       $this->assertEquals("1,1,WEST\n0,1,WEST", $this->response->getContent());
    }
@@ -36,7 +36,7 @@ class CompleteProcessTest extends TestCase
    */
   public function testByIgnoringCommandsTillPlaceCommand()
   {
-     $this->get('run/sample04');
+     $this->get('run/IgnoreAllCommandBeforeValidPlace');
      
      $this->assertEquals("1,3,SOUTH\n1,4,NORTH\n1,4,NORTH\n1,4,EAST\n2,4,WEST\n1,4,WEST", $this->response->getContent());
   }
@@ -48,7 +48,7 @@ class CompleteProcessTest extends TestCase
    */
    public function testwithEmptyFile()
    {
-      $this->get('run/sample02');
+      $this->get('run/EmptyFile');
       
       $this->assertEquals("No Commands Found in File.", $this->response->getContent());
    }
@@ -60,7 +60,7 @@ class CompleteProcessTest extends TestCase
    */
    public function testwithAllInvalidCommands()
    {
-      $this->get('run/sample03');
+      $this->get('run/NoValidPlaceCommand');
       
       $this->assertEquals("No Valid Commands Found in given File.", $this->response->getContent());
    }

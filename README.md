@@ -21,8 +21,8 @@ Moving Robot Problem
 ## About The Implementation
 
 * The Implementation is done via `Lumen Laravel Micro Framework`.
-* The Route: `run/{fileName}` e.g: `run/sample01` is available for Checking whole process of Moving Robot. 
-* Exeute the Command on Project Root `php artisan route:call run/sample01` to check `sample01` file commands.
+* The Route: `run/{fileName}` e.g: `run/ValidCommands` is available for checking whole process of Moving Robot. 
+* Exeute the Command on Project Root `php artisan route:call run/ValidCommands` to check robot movement result for `ValidCommands` file commands.
 * Sample Robot Moving Commands files are available here [commandFiles](https://github.com/faisalsiddiq87/MovingRobot/tree/master/public/commandFiles).
 * All test cases are available here [tests](https://github.com/faisalsiddiq87/MovingRobot/tree/master/tests).
 * Execute command `vendor/bin/phpunit` to check all test cases output.
