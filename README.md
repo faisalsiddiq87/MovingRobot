@@ -28,3 +28,7 @@ Moving Robot Problem
 * Execute command `vendor/bin/phpunit` to check all test cases output.
 * For executing single test case from each test case file Execute Command `vendor/bin/phpunit --filter withValidCommands`.
 * Please Note: All these commands must be executed after `vagrant ssh` if you configured project via Homestead.
+
+## ScreenShots
+
+* Please review [screenshots](https://github.com/faisalsiddiq87/MovingRobot/tree/master/public/screenShots) of route calls, test cases results.
