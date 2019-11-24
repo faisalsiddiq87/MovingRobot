@@ -193,12 +193,6 @@ class MovementService implements Contract
   {
     $params = explode(",", str_replace(['PLACE', ' '], '', $cmd));
 
-    $newX = $params[0];
-
-    $newY = $params[1];
-
-    $newDirection = $params[2];
-
-    return ['x' => $newX, 'y' => $newY, 'direction' => $newDirection];
+    return ['x' => $params[0], 'y' => $params[1], 'direction' => $params[2]];
   }
 }
