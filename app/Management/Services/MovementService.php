@@ -50,6 +50,11 @@ class MovementService implements Contract
     return $this->commands;
   }
 
+  private function getDirections()
+  {
+    return [self::EAST, self::NORTH, self::WEST, self::SOUTH];
+  }
+
   /**
    * Start Robot Movement
    * 
@@ -96,19 +101,11 @@ class MovementService implements Contract
 
   private function place($cmd) 
   {
-    $parseCommand  = str_replace(['PLACE', ' '], '', $cmd);
+    $parsedCommand  = $this->parsePlaceCommand($cmd);
 
-    $params = explode(",", $parseCommand);
-
-    $newX = $params[0];
-
-    $newY = $params[1];
-
-    $newDirection = $params[2];
-
-    if ($this->isAllowedToMove($newX, $newY)) {
-      $this->setNewLocationAxis($newX, $newY);
-      $this->setDirection($newDirection);
+    if ($this->isAllowedToMove($parsedCommand['x'], $parsedCommand['y'])) {
+      $this->setNewLocationAxis($parsedCommand['x'], $parsedCommand['y']);
+      $this->setDirection($parsedCommand['direction']);
     }
   }
 
@@ -143,14 +140,14 @@ class MovementService implements Contract
 
     $currentDirection = $currentLocation['direction'];
 
-    if ($currentDirection == self::EAST) {
-      $newDirection = self::NORTH;
-    } else if ($currentDirection == self::NORTH) {
-      $newDirection = self::WEST;
-    } else if ($currentDirection == self::WEST) {
-      $newDirection = self::SOUTH;
+    $directions = $this->getDirections();
+
+    $currentDirectionKey = array_search($currentDirection, $directions);
+
+    if ($currentDirectionKey == 3) {
+      $newDirection = $directions[0];
     } else {
-      $newDirection = self::EAST;
+      $newDirection = $directions[$currentDirectionKey+1];
     }
 
     $this->setDirection($newDirection);
@@ -162,14 +159,14 @@ class MovementService implements Contract
 
     $currentDirection = $currentLocation['direction'];
 
-    if ($currentDirection == self::EAST) {
-      $newDirection = self::SOUTH;
-    } else if ($currentDirection == self::SOUTH) {
-      $newDirection = self::WEST;
-    } else if ($currentDirection == self::WEST) {
-      $newDirection = self::NORTH;
+    $directions = $this->getDirections();
+
+    $currentDirectionKey = array_search($currentDirection, $directions);
+
+    if ($currentDirectionKey == 0) {
+      $newDirection = $directions[3];
     } else {
-      $newDirection = self::EAST;
+      $newDirection = $directions[$currentDirectionKey-1];
     }
 
     $this->setDirection($newDirection);
@@ -190,5 +187,18 @@ class MovementService implements Contract
   private function isSquareTable()
   {
     return $this->table->isValidSquareTable();
+  }
+
+  private function parsePlaceCommand($cmd)
+  {
+    $params = explode(",", str_replace(['PLACE', ' '], '', $cmd));
+
+    $newX = $params[0];
+
+    $newY = $params[1];
+
+    $newDirection = $params[2];
+
+    return ['x' => $newX, 'y' => $newY, 'direction' => $newDirection];
   }
 }

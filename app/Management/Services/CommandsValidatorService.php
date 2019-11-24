@@ -58,7 +58,7 @@ class CommandsValidatorService implements Contract
      
       //Remove ALL Commands before the first PLACE command
       if ($getFirstValidPlaceCommandKey > -1) {
-         $indexedCommands = $this->reindexArray($getFirstValidPlaceCommandKey);
+         $indexedCommands = reIndexArray($this->commands, $getFirstValidPlaceCommandKey);
          $this->setCommands($indexedCommands);
       } else {
          $this->setCommands([]);
@@ -88,16 +88,14 @@ class CommandsValidatorService implements Contract
    
    public function isValidPlaceCommand($cmd)
    {
-      return $this->matchPattern('/^PLACE\s+[0-9]+[,]+[0-9]+[,](NORTH|SOUTH|EAST|WEST)$/', $cmd) && $this->verifyPlaceCordinates($cmd);
+      return matchPattern('/^PLACE\s+[0-9]+[,]+[0-9]+[,](NORTH|SOUTH|EAST|WEST)$/', $cmd) && $this->verifyPlaceCordinates($cmd);
    }
 
    private function verifyPlaceCordinates($cmd)
    {
       $hasValidPlaceCoordinates = false;
 
-      $parseCommand  = str_replace(['PLACE', ' '], '', $cmd);
-
-      $params = explode(",", $parseCommand);
+      $params = explode(",", str_replace(['PLACE', ' '], '', $cmd));
 
       $xAxis = $params[0];
   
@@ -112,31 +110,21 @@ class CommandsValidatorService implements Contract
 
    public function isValidMoveCommand($cmd)
    {
-      return $this->matchPattern('/^MOVE$/', $cmd);
+      return matchPattern('/^MOVE$/', $cmd);
    }
 
    public function isValidLeftCommand($cmd)
    {
-      return $this->matchPattern('/^LEFT$/', $cmd);
+      return matchPattern('/^LEFT$/', $cmd);
    }
 
    public function isValidRightCommand($cmd)
    {
-      return $this->matchPattern('/^RIGHT$/', $cmd);
+      return matchPattern('/^RIGHT$/', $cmd);
    }
 
    public function isValidReportCommand($cmd)
    {
-      return $this->matchPattern('/^REPORT$/', $cmd);
-   }
-
-   private function matchPattern($pattern, $cmd)
-   {
-      return preg_match($pattern, $cmd) ? 1 : 0;
-   }
-
-   private function reindexArray($index)
-   {
-      return array_values(array_slice($this->commands, $index, NULL, TRUE));
+      return matchPattern('/^REPORT$/', $cmd);
    }
 }

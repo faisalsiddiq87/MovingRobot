@@ -7,7 +7,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 class SquareTableServiceTest extends TestCase
 {
    /**
-     * Test Square Table: When Valid Coordinates provided
+     * Test Square Table: When Valid Square Table Coordinates provided
      *
      * @return void
    */
@@ -21,7 +21,7 @@ class SquareTableServiceTest extends TestCase
    }
 
    /**
-     * Test Square Table: When In Valid Coordinates provided
+     * Test Square Table: When In Valid Square Table Coordinates provided
      *
      * @return void
    */
@@ -35,7 +35,7 @@ class SquareTableServiceTest extends TestCase
    }
 
    /**
-     * Test Square Table: if Valid Place on Square Table when valid coordinates provided
+     * Test Square Table: if Valid Place on Square Table when Valid coordinates provided
      *
      * @return void
    */
@@ -49,7 +49,7 @@ class SquareTableServiceTest extends TestCase
    }
 
    /**
-     * Test Square Table: if Valid Place on Square Table when in valid coordinates provided
+     * Test Square Table: if Valid Place on Square Table when In Valid coordinates provided
      *
      * @return void
    */

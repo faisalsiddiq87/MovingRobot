@@ -75,7 +75,7 @@ class MovementServiceTest extends TestCase
      *
      * @return void
    */
-   public function testMoveWhileInWestDirection()
+   public function testMoveShouldReturnWestDirection()
    {
       $allCommands = ['PLACE 1,2,NORTH', 'LEFT', 'MOVE', 'REPORT'];
 
@@ -91,7 +91,7 @@ class MovementServiceTest extends TestCase
      *
      * @return void
    */
-   public function testMoveWhileInSouthDirection()
+   public function testMoveShouldReturnSouthDirection()
    {
       $allCommands = ['PLACE 1,2,NORTH', 'LEFT', 'LEFT', 'MOVE', 'REPORT'];
 

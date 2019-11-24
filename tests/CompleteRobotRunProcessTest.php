@@ -30,6 +30,18 @@ class CompleteProcessTest extends TestCase
    }
 
    /**
+     * Test Complete Robot Movement Process: By valid ignoring valid Commands till first valid place command
+     *
+     * @return void
+   */
+  public function testByIgnoringCommandsTillPlaceCommand()
+  {
+     $this->get('run/sample04');
+     
+     $this->assertEquals("1,3,SOUTH\n1,4,NORTH\n1,4,NORTH\n1,4,EAST\n2,4,WEST\n1,4,WEST", $this->response->getContent());
+  }
+
+   /**
      * Test Complete Robot Movement Process: By empty input file
      *
      * @return void
